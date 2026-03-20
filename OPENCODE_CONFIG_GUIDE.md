@@ -14,7 +14,7 @@ Use `opencode.sample.json` as the reference for the currently available provider
 
 Required workflow:
 
-1. Read `opencode.sample.json`.
+1. Read "Sample Configuration File".
 2. Show all available providers.
 3. Under each provider, show all exact model names exactly as written in the provider data.
 4. Ask me to reply with one or more exact model names that I want to update.
