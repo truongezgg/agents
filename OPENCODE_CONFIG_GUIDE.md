@@ -10,8 +10,6 @@ Update only `~/.config/opencode/opencode.json`.
 Before making any changes, read this guide:
 https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CONFIG_GUIDE.md
 
-Use `opencode.sample.json` as the reference for the currently available providers and exact model names.
-
 Required workflow:
 
 1. Read "Sample Configuration File".
