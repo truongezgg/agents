@@ -1,0 +1,284 @@
+# Opencode model configs
+
+Opencode config docs: https://opencode.ai/docs/config/
+Opencode providers docs: https://opencode.ai/docs/providers/
+
+```json
+{
+  "models": {
+    "gpt-5.4": {
+      "name": "gpt-5.4",
+      "limit": {
+        "context": 1050000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "reasoningEffort": "low"
+        },
+        "medium": {
+          "reasoningEffort": "medium"
+        },
+        "high": {
+          "reasoningEffort": "high"
+        },
+        "xhigh": {
+          "reasoningEffort": "xhigh"
+        }
+      }
+    },
+    "gpt-5.4-mini": {
+      "name": "gpt-5.4-mini",
+      "limit": {
+        "context": 400000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "reasoningEffort": "low"
+        },
+        "medium": {
+          "reasoningEffort": "medium"
+        },
+        "high": {
+          "reasoningEffort": "high"
+        },
+        "xhigh": {
+          "reasoningEffort": "xhigh"
+        }
+      }
+    },
+    "gpt-5.3-codex": {
+      "name": "gpt-5.3-codex",
+      "limit": {
+        "context": 400000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "reasoningEffort": "low"
+        },
+        "medium": {
+          "reasoningEffort": "medium"
+        },
+        "high": {
+          "reasoningEffort": "high"
+        },
+        "xhigh": {
+          "reasoningEffort": "xhigh"
+        }
+      }
+    },
+    "gpt-5.1-codex-mini": {
+      "name": "gpt-5.1-codex-mini",
+      "limit": {
+        "context": 400000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "reasoningEffort": "low"
+        },
+        "medium": {
+          "reasoningEffort": "medium"
+        },
+        "high": {
+          "reasoningEffort": "high"
+        },
+        "xhigh": {
+          "reasoningEffort": "xhigh"
+        }
+      }
+    },
+    "claude-opus-4-6-thinking": {
+      "name": "claude-opus-4-6-thinking",
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "effort": "low"
+        },
+        "medium": {
+          "effort": "medium"
+        },
+        "high": {
+          "effort": "high"
+        }
+      }
+    },
+    "claude-sonnet-4-6": {
+      "name": "claude-sonnet-4-6",
+      "limit": {
+        "context": 1000000,
+        "output": 64000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "effort": "low"
+        },
+        "medium": {
+          "effort": "medium"
+        },
+        "high": {
+          "effort": "high"
+        }
+      }
+    },
+    "qwen3-coder-plus": {
+      "name": "qwen3-coder-plus",
+      "limit": {
+        "context": 1000000,
+        "output": 65536
+      },
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      }
+    },
+    "qwen3-coder-flash": {
+      "name": "qwen3-coder-flash",
+      "limit": {
+        "context": 1000000,
+        "output": 65536
+      },
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      }
+    },
+    "gemini-3.1-pro-high": {
+      "name": "gemini-3.1-pro-high",
+      "limit": {
+        "context": 1048576,
+        "output": 65536
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "audio",
+          "video",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "thinkingLevel": "low"
+        },
+        "medium": {
+          "thinkingLevel": "medium"
+        },
+        "high": {
+          "thinkingLevel": "high"
+        }
+      }
+    },
+    "gemini-3-flash": {
+      "name": "gemini-3-flash",
+      "limit": {
+        "context": 1048576,
+        "output": 65536
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "audio",
+          "video",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "minimal": {
+          "thinkingLevel": "minimal"
+        },
+        "low": {
+          "thinkingLevel": "low"
+        },
+        "medium": {
+          "thinkingLevel": "medium"
+        },
+        "high": {
+          "thinkingLevel": "high"
+        }
+      }
+    }
+  }
+}
+```
