@@ -12,11 +12,13 @@ https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CON
 
 First ask: which provider do you want to update?
 
+Then show the exact model names available for that provider and let the user pick one or more models.
+
 Then:
 - read this guide for the expected config structure
 - check the provider's latest official model data
 - compare it with the user's current config
-- update only that provider in `~/.config/opencode/opencode.json`
+- update only the selected models in `~/.config/opencode/opencode.json`
 - keep the existing schema style
 - do not guess missing fields
 - return a short changelog and note anything that needs manual verification
