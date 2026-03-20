@@ -1,5 +1,24 @@
 # Opencode Configuration Guide for Beginners
 
+## AI Agent Prompt For Updating Models
+
+Use this prompt when you want a coding agent to update your local opencode config in `~/.config/opencode/opencode.json`.
+
+```text
+Update only `~/.config/opencode/opencode.json`.
+
+First ask: which provider do you want to update?
+
+Then:
+- read this guide for the expected config structure
+- check the provider's latest official model data
+- compare it with the user's current config
+- update only that provider in `~/.config/opencode/opencode.json`
+- keep the existing schema style
+- do not guess missing fields
+- return a short changelog and note anything that needs manual verification
+```
+
 ## What is Opencode?
 
 Opencode is a powerful CLI tool that helps with software engineering tasks. It connects to various AI models to assist with coding, debugging, and development workflows.
