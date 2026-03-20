@@ -12,8 +12,9 @@ https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CON
 
 First ask: which provider do you want to update?
 
-Then show the exact model names available for that provider, and let the user pick one or more models.
-The first option must be `All (update all)`.
+Then show a `Models Available` section in the chat.
+In that section, show the provider name, the full list of exact model names, and a `DETAILS` section with useful model information.
+The user must reply with the model name(s) they want, or reply `All` to update every model for that provider.
 Do not shorten or rename model names; show them exactly as they appear in the provider data, for example `gpt-5.4`.
 
 Then:
