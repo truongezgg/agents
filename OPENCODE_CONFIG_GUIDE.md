@@ -7,6 +7,9 @@ Use this prompt when you want a coding agent to update your local opencode confi
 ```text
 Update only `~/.config/opencode/opencode.json`.
 
+Read this guide first:
+https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CONFIG_GUIDE.md
+
 First ask: which provider do you want to update?
 
 Then:
