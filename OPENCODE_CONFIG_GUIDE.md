@@ -12,7 +12,9 @@ https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CON
 
 First ask: which provider do you want to update?
 
-Then show the exact model names available for that provider and let the user pick one or more models.
+Then show the exact model names available for that provider, and let the user pick one or more models.
+The first option must be `All (update all)`.
+Do not shorten or rename model names; show them exactly as they appear in the provider data, for example `gpt-5.4`.
 
 Then:
 - read this guide for the expected config structure
