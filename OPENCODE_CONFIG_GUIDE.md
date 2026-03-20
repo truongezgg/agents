@@ -10,15 +10,6 @@ Update only `~/.config/opencode/opencode.json`.
 Before making any changes, read this guide:
 https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CONFIG_GUIDE.md
 
-For general opencode documentation, also use:
-https://opencode.ai/docs
-
-For config documentation, also use:
-https://opencode.ai/docs/config/
-
-For provider documentation, also use:
-https://opencode.ai/docs/providers/
-
 Required workflow:
 
 1. Read "Sample Configuration File".
