@@ -10,6 +10,15 @@ Update only `~/.config/opencode/opencode.json`.
 Before making any changes, read this guide:
 https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CONFIG_GUIDE.md
 
+For general opencode documentation, also use:
+https://opencode.ai/docs
+
+For config documentation, also use:
+https://opencode.ai/docs/config/
+
+For provider documentation, also use:
+https://opencode.ai/docs/providers/
+
 Required workflow:
 
 1. Read "Sample Configuration File".
@@ -38,6 +47,12 @@ Final response must include:
 ## What is Opencode?
 
 Opencode is a powerful CLI tool that helps with software engineering tasks. It connects to various AI models to assist with coding, debugging, and development workflows.
+
+Official docs: https://opencode.ai/docs
+
+Config docs: https://opencode.ai/docs/config/
+
+Providers docs: https://opencode.ai/docs/providers/
 
 ## Understanding the Configuration
 
@@ -366,18 +381,3 @@ We've provided a sample configuration file called `opencode.sample.json` that in
   }
 }
 ```
-
-### How to Use This Configuration
-
-1. Copy the sample file to create your own configuration (e.g., `.openconfig.json`)
-2. Modify the file to include only the models you have access to and intend to use
-3. Set up authentication for your chosen AI providers
-4. Start using opencode for development assistance!
-
-### Getting Started
-
-1. Install opencode: `npm install -g opencode`
-2. Copy the sample configuration: `cp opencode.sample.json .openconfig.json`
-3. Edit `.openconfig.json` to include only your preferred models
-4. Set up authentication for your chosen AI providers
-5. Start using opencode for development assistance!
