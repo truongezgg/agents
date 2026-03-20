@@ -7,24 +7,34 @@ Use this prompt when you want a coding agent to update your local opencode confi
 ```text
 Update only `~/.config/opencode/opencode.json`.
 
-Read this guide first:
+Before making any changes, read this guide:
 https://raw.githubusercontent.com/truongezgg/agents/refs/heads/main/OPENCODE_CONFIG_GUIDE.md
 
-First ask: which provider do you want to update?
+Use `opencode.sample.json` as the reference for the currently available providers and exact model names.
 
-Then show a `Models Available` section in the chat.
-In that section, show the provider name, the full list of exact model names, and a `DETAILS` section with useful model information.
-The user must reply with the model name(s) they want, or reply `All` to update every model for that provider.
-Do not shorten or rename model names; show them exactly as they appear in the provider data, for example `gpt-5.4`.
+Required workflow:
 
-Then:
-- read this guide for the expected config structure
-- check the provider's latest official model data
-- compare it with the user's current config
-- update only the selected models in `~/.config/opencode/opencode.json`
-- keep the existing schema style
-- do not guess missing fields
-- return a short changelog and note anything that needs manual verification
+1. Read `opencode.sample.json`.
+2. Show all available providers.
+3. Under each provider, show all exact model names exactly as written in the provider data.
+4. Ask me to reply with one or more exact model names that I want to update.
+5. Do not edit anything until I reply.
+6. After I reply, check the latest official model data only for the selected model(s).
+7. Read my current `~/.config/opencode/opencode.json`.
+8. Compare the selected model entries against the official data.
+9. Update only the selected model entries in `~/.config/opencode/opencode.json`.
+10. Preserve the existing JSON structure, field naming, and formatting style.
+11. Do not rename models.
+12. Do not guess missing values.
+13. If any field cannot be verified from an official source, leave it unchanged and report it.
+14. Do not modify any unselected model.
+15. Do not edit any other file.
+
+Final response must include:
+- selected model names
+- what changed
+- what was left unchanged because it could not be verified
+- any manual follow-up needed
 ```
 
 ## What is Opencode?
