@@ -1,0 +1,44 @@
+{
+  "name": "gemini-google-search-mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MCP stdio server that delegates Google Search-backed web search to Gemini CLI",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/truongezgg/agents.git",
+    "directory": "mcps/gemini-google-search-mcp"
+  },
+  "homepage": "https://github.com/truongezgg/agents/tree/main/mcps/gemini-google-search-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/truongezgg/agents/issues"
+  },
+  "files": [
+    "index.mjs",
+    "README.md",
+    "agent-instructions.md"
+  ],
+  "bin": {
+    "gemini-google-search-mcp": "./index.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "gemini",
+    "google-search",
+    "stdio"
+  ],
+  "scripts": {
+    "start": "node index.mjs --stdio",
+    "check": "node --check index.mjs",
+    "pack:dry-run": "npm pack --dry-run",
+    "prepublishOnly": "npm run check"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.4",
+    "zod": "^3.25.76"
+  }
+}
