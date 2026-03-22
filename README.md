@@ -66,10 +66,6 @@ npm run verify:gemini-google-search-mcp
 npm run publish:gemini-google-search-mcp
 ```
 
-There is also a manual GitHub Actions workflow at `.github/workflows/publish-gemini-google-search-mcp.yml`.
-
-Before the workflow can publish, add an `NPM_TOKEN` repository secret.
-
 ## Development
 
 After editing a skill, verify the rendered content and installation flow with your preferred agent tooling.

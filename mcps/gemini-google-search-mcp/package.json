@@ -19,7 +19,7 @@
     "agent-instructions.md"
   ],
   "bin": {
-    "gemini-google-search-mcp": "./index.mjs"
+    "gemini-google-search-mcp": "index.mjs"
   },
   "engines": {
     "node": ">=20"

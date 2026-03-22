@@ -5,6 +5,6 @@
     "check:gemini-google-search-mcp": "npm --prefix mcps/gemini-google-search-mcp run check",
     "pack:gemini-google-search-mcp": "npm --prefix mcps/gemini-google-search-mcp run pack:dry-run",
     "verify:gemini-google-search-mcp": "npm run check:gemini-google-search-mcp && npm run pack:gemini-google-search-mcp",
-    "publish:gemini-google-search-mcp": "npm --prefix mcps/gemini-google-search-mcp publish --access public"
+    "publish:gemini-google-search-mcp": "node scripts/publish-package.mjs mcps/gemini-google-search-mcp --access public"
   }
 }
