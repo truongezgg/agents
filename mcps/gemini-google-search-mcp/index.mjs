@@ -5,6 +5,7 @@ import { promisify } from "node:util";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { normalizeModel } from "./model-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const require = createRequire(import.meta.url);
@@ -154,10 +155,12 @@ function parseGeminiEnvelope(stdout, stderr) {
 async function runGemini({ prompt, model, timeoutMs }) {
   const command = process.env.GEMINI_CMD || "gemini";
   const extraArgs = parseExtraArgs();
+  const resolvedModel = normalizeModel(model);
 
   const args = [
     ...extraArgs,
-    ...(model ? ["-m", model] : []),
+    "-m",
+    resolvedModel,
     "-p",
     prompt,
     "--output-format",
