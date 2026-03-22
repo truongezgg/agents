@@ -45,8 +45,8 @@ Parameter guidance:
 - `query`: a focused search query, not a long essay
 - `maxSources`: how many citations to request, usually `3` to `5`
 - `freshness`: `today`, `recent`, or `any`
-- `model`: optional Gemini model override
-- `timeoutMs`: optional timeout override for slower searches
+- `model`: optional Gemini model override, such as `gemini-3-flash` or `gemini-3.1-pro`
+- `timeoutMs`: optional timeout override for slower searches; default is `120000`
 
 ## Query Guidelines
 

@@ -332,21 +332,21 @@ server.tool(
     model: z
       .string()
       .optional()
-      .describe("Optional Gemini model override, for example gemini-3-pro, gemini-3-flash."),
+      .describe("Optional Gemini model override, for example gemini-3.1-pro or gemini-3-flash."),
     timeoutMs: z
       .number()
       .int()
       .min(5000)
       .max(180000)
       .optional()
-      .describe("Per-call timeout in milliseconds. Default: 90000."),
+      .describe("Per-call timeout in milliseconds. Default: 120000."),
   },
   async ({
     query,
     maxSources = 5,
     freshness = "recent",
     model,
-    timeoutMs = 90000,
+    timeoutMs = 120000,
   }) => {
     try {
       const prompt = buildSearchPrompt({ query, maxSources, freshness });

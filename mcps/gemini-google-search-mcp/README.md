@@ -8,6 +8,8 @@ It exposes one tool:
 
 - `gemini_web_search(query, maxSources?, freshness?, model?, timeoutMs?)`
 
+The default per-call timeout is `120000` ms (`120s`).
+
 Internally it runs Gemini CLI in headless mode:
 
 ```bash
@@ -38,6 +40,16 @@ gemini -p "Search the web for the latest TypeScript release and summarize it bri
 ```
 
 ## Quick start
+
+## Agent skill install
+
+This repo also includes agent skills. Users can install the skill collection and choose the `gemini-google-search-mcp` skill with:
+
+```bash
+npx skills add https://github.com/truongezgg/agents/skills
+```
+
+Then select the `gemini-google-search-mcp` skill during installation to add the reusable agent guidance for this MCP server.
 
 ```bash
 npx -y gemini-google-search-mcp --help
@@ -106,7 +118,7 @@ Tell your coding agent something like:
 
 > For questions that need up-to-date web information, call the `gemini_web_search` MCP tool instead of relying on model memory. Prefer this for package versions, current docs, news, release notes, pricing, and breaking changes.
 
-A reusable version of that guidance lives in `agent-instructions.md`.
+A reusable version of that guidance also ships as the `gemini-google-search-mcp` agent skill. You can install the skills collection with `npx skills add https://github.com/truongezgg/agents/skills` and choose that skill.
 
 ## Notes and caveats
 
