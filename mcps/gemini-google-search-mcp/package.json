@@ -1,6 +1,6 @@
 {
   "name": "gemini-google-search-mcp",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "description": "MCP stdio server that delegates Google Search-backed web search to Gemini CLI",
   "license": "MIT",
