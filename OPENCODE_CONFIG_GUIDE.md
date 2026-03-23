@@ -71,6 +71,12 @@ The configuration contains several AI models from different providers:
 - **gemini-3.1-pro-high**: High-performance multimodal model
 - **gemini-3-flash**: Efficient multimodal model
 
+#### Cursor Models (via cliproxyapi / 9router)
+These models are served through the cliproxyapi OpenAI-compatible provider using Cursor's model access, routed via 9router.
+- **cu/claude-4.6-opus**: Most powerful Cursor-routed Claude model (1M context)
+- **cu/claude-4.6-sonnet**: Balanced Cursor-routed Claude model (1M context)
+- **cu/claude-4.5-haiku**: Lightweight Cursor-routed Claude model (200K context)
+
 ### Key Configuration Values
 
 Each model has the following properties:
@@ -366,6 +372,90 @@ We've provided a sample configuration file called `opencode.sample.json` that in
         },
         "high": {
           "thinkingLevel": "high"
+        }
+      }
+    },
+    "cu/claude-4.6-opus": {
+      "name": "cu/claude-4.6-opus",
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "effort": "low"
+        },
+        "medium": {
+          "effort": "medium"
+        },
+        "high": {
+          "effort": "high"
+        }
+      }
+    },
+    "cu/claude-4.6-sonnet": {
+      "name": "cu/claude-4.6-sonnet",
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "effort": "low"
+        },
+        "medium": {
+          "effort": "medium"
+        },
+        "high": {
+          "effort": "high"
+        }
+      }
+    },
+    "cu/claude-4.5-haiku": {
+      "name": "cu/claude-4.5-haiku",
+      "limit": {
+        "context": 200000,
+        "output": 64000
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "pdf"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "variants": {
+        "low": {
+          "effort": "low"
+        },
+        "medium": {
+          "effort": "medium"
+        },
+        "high": {
+          "effort": "high"
         }
       }
     }
