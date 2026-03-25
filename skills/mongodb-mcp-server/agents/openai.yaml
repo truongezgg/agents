@@ -1,0 +1,3 @@
+interface:
+  display_name: "MongoDB MCP Server"
+  short_description: "Guide for choosing MongoDB MCP tools and using them safely"
