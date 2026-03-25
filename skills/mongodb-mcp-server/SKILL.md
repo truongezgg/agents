@@ -1,6 +1,6 @@
 ---
 name: mongodb-mcp-server
-description: guidance for using the mongodb mcp server for direct mongodb database connections and database operations. use when chatgpt has access to the mongodb mcp server and needs to connect to a mongodb server with a connection string, switch connections, inspect databases and collections, query data, explain performance, export results, or troubleshoot direct mongo connection issues without relying on atlas-specific workflows.
+description: guidance for using the mongodb mcp server for direct mongodb database inspection in clients that expose mongodb tools. use when chatgpt needs to confirm or switch an existing connection, inspect databases and collections, query data, explain performance, export results, use mongodb knowledge search, or troubleshoot direct mongo connection issues without relying on atlas-specific workflows. adapt to the actual tool surface exposed by the running client instead of assuming every mongodb mcp capability is available.
 ---
 
 # MongoDB MCP Server
@@ -8,37 +8,42 @@ description: guidance for using the mongodb mcp server for direct mongodb databa
 Use this skill for direct MongoDB server work.
 Treat Atlas, Atlas Local, and Assistant features as out of scope unless the user explicitly asks for them.
 
+This skill must adapt to the actual MongoDB MCP tools exposed by the running environment. Do not assume the full server catalog is available. In this workspace, the currently exposed MongoDB tool surface is effectively read-only and includes metadata, query, export, diagnostics, knowledge search, and `switch-connection`, but not `connect`, config/debug resources, or write tools.
+
 ## Core operating stance
 
 - Prefer direct database tools first.
-- Prefer environment-configured connections over passing a connection string during the chat session.
-- Prefer read and metadata operations before any write operation.
+- Prefer an already active or environment-configured connection over passing a connection string during the chat session.
+- Prefer read and metadata operations first.
 - State the active connection, database, and collection before querying or mutating.
-- When a write is requested, inspect the current state first when practical.
-- If a tool is unavailable, inspect configuration and adapt instead of assuming the server is broken.
+- When the user asks for a write, explain that the current client does not expose write tools.
+- If a tool is unavailable, adapt to the exposed tool surface instead of assuming the server is broken.
 
 ## Connection rules
 
 Use this order:
 
-1. Check whether there is already an active connection.
+1. Check whether there is already an active connection by attempting a harmless metadata call such as `list-databases`.
 2. If the server was started with `MDB_MCP_CONNECTION_STRING`, prefer reusing that connection.
-3. Use `connect` only when no active connection exists or the user explicitly wants to connect to a different MongoDB server.
-4. Use `switch-connection` when the user wants to move from one MongoDB deployment or environment to another.
-5. After `connect` or `switch-connection`, reuse that same connection for the rest of the task.
+3. Use `switch-connection` when the user wants to move from one MongoDB deployment or environment to another and that tool is exposed.
+4. Do not promise runtime `connect` in this client unless the tool is visibly exposed.
+5. After switching connections, reuse that same connection for the rest of the task.
 
 Important guidance:
 
 - Do not ask the user to paste secrets into normal chat unless there is no safer option in their MCP client.
-- If the server starts with the `connect` category disabled, direct connection must be provided in server configuration instead of at runtime.
-- If connection behavior is confusing, inspect `debug://mongodb` and `config://config`.
+- If `connect` is not exposed, direct connection setup must come from the MCP server configuration or an existing active connection.
+- If diagnostic resources like `debug://mongodb` or `config://config` are not exposed, rely on the available tool outputs and error messages instead.
+- Treat this client as inspection-first: avoid describing mutation workflows as if they are runnable here.
 
 ## Default workflow for direct MongoDB tasks
 
-### 1) Connect
+### 1) Establish or confirm the connection
 
-- `connect`
-- `switch-connection`
+- `list-databases` to confirm an active connection when possible
+- `switch-connection` when the user explicitly wants a different deployment
+
+In this client, assume the connection already exists unless `switch-connection` is used.
 
 ### 2) Discover the namespace
 
@@ -62,28 +67,17 @@ Use these before writing queries when the collection shape is not already known.
 ### 4) Export
 
 - `export` when the user needs a saved result set or handoff
-- `exported-data://{exportName}` to inspect a prior export
+- use the returned `exported-data://...` URI or local export path when the client provides one
 
-### 5) Write only after inspection
+### 5) Write requests in this client
 
-- `create-collection`
-- `create-index`
-- `insert-many`
-- `update-one`
-- `update-many`
-- `delete-many`
-- `rename-collection`
-- `drop-index`
-- `drop-collection`
-- `drop-database`
+This client does not currently expose write tools.
 
-Before running a write, summarize:
+When the user asks to create, update, delete, rename, or drop data:
 
-- the active connection
-- the target database and collection
-- the exact filter or selection criteria
-- the fields or documents being changed
-- the blast radius for destructive operations
+- explain that the current MongoDB MCP surface is read-only
+- avoid describing write commands as if they are immediately runnable here
+- if useful, explain that writes would require a different MCP configuration or client exposure
 
 ## Sample prompts for each tool and resource
 
@@ -91,7 +85,7 @@ Use these as patterns. Rewrite them to fit the user's actual database names, col
 
 ### Connection and switching
 
-- `connect`: `Connect to my MongoDB server using this connection string and then show me the available databases.`
+- `list-databases`: `Confirm the active MongoDB connection by listing the available databases.`
 - `switch-connection`: `Switch from the staging MongoDB connection to production and confirm which connection is now active.`
 
 ### Discovery and metadata
@@ -114,25 +108,22 @@ Use these as patterns. Rewrite them to fit the user's actual database names, col
 ### Export
 
 - `export`: `Export the result of the pending orders query from sales.orders to JSON so I can download or inspect it later.`
-- `exported-data://{exportName}`: `Open the exported-data resource for the last orders export so I can inspect the saved JSON.`
+- `exported-data://{exportName}` or local path: `Open the returned export resource or file path for the last orders export so I can inspect the saved JSON.`
 
-### Writes
+### Write requests
 
-- `create-collection`: `Create a new collection named order_audit in the sales database.`
-- `create-index`: `Create an index on sales.orders for customerId and createdAt descending.`
-- `insert-many`: `Insert these three seed documents into sales.order_audit.`
-- `update-one`: `Update one order in sales.orders where orderId is 1001 and set status to \"shipped\".`
-- `update-many`: `Update many orders in sales.orders where status is \"pending\" and set priority to \"high\".`
-- `delete-many`: `Delete test orders from sales.orders where environment is \"dev\".`
-- `rename-collection`: `Rename sales.order_audit to sales.order_audit_archive.`
-- `drop-index`: `Drop the old customerId_1 index from sales.orders.`
-- `drop-collection`: `Drop the temporary sales.tmp_import collection.`
-- `drop-database`: `Drop the sandbox_sales database.`
+- `write limitation`: `This MongoDB MCP client currently exposes read/query/export tools but not write tools, so I can inspect the target data and explain the exact mutation you would run once writes are enabled.`
 
 ### Diagnostic resources
 
-- `config://config`: `Read the MCP server config resource and tell me whether readOnly mode or disabled tools are preventing writes.`
-- `debug://mongodb`: `Read the MongoDB debug resource and explain why the latest connection attempt failed.`
+- `mongodb-logs`: `Show the most recent MongoDB server log events related to failed queries or connection problems.`
+- `config://config` when exposed: `Read the MCP server config resource and tell me whether readOnly mode or disabled tools are preventing writes.`
+- `debug://mongodb` when exposed: `Read the MongoDB debug resource and explain why the latest connection attempt failed.`
+
+### MongoDB knowledge tools
+
+- `list-knowledge-sources`: `List the MongoDB knowledge sources available in the assistant knowledge base.`
+- `search-knowledge`: `Search the MongoDB knowledge base for Atlas Search operator syntax or aggregation guidance.`
 
 ## Query planning rules
 
@@ -147,11 +138,13 @@ Use these as patterns. Rewrite them to fit the user's actual database names, col
 
 When tools fail or behavior is unexpected:
 
-1. Read `debug://mongodb` for the latest connection attempt and error details.
-2. Read `config://config` to check read-only mode, disabled tools, and other effective settings.
-3. If writes are unavailable, assume `readOnly` or disabled tool categories first.
-4. If connection switching is unavailable, assume the `connect` category may be disabled and the connection string must come from startup configuration.
-5. Distinguish clearly between connection failure, authentication failure, authorization failure, and tool suppression.
+1. Start with available metadata calls such as `list-databases` or `list-collections` to distinguish connection issues from empty data.
+2. Read `debug://mongodb` if that resource is exposed.
+3. Read `config://config` if that resource is exposed.
+4. If writes are unavailable, assume the current MCP environment does not expose them rather than promising mutation support.
+5. If connection switching is unavailable, assume the connection must come from startup configuration.
+6. Distinguish clearly between connection failure, authentication failure, authorization failure, empty collections, and tool suppression.
+7. Remember that an empty collection can make `collection-schema` return no inferred schema even when the collection exists.
 
 ## Response pattern
 
@@ -161,9 +154,11 @@ When reporting results after tool use, include:
 2. database and collection, if applicable
 3. tool or sequence of tools used
 4. key result in plain language
-5. caveats such as read-only mode, disabled tools, missing indexes, limits, or skipped writes
+5. caveats such as read-only mode, disabled tools, empty collections, missing indexes, limits, or skipped writes
 
 ## Bundled references
 
 - See `references/tool-catalog.md` for the direct-connection MongoDB tool inventory.
 - See `references/setup-and-safety.md` for connection setup and troubleshooting guidance.
+- See `references/live-tool-surface.md` for the currently observed MongoDB MCP runtime in this client.
+- See `evals/evals.json` for starter evaluation prompts for this skill.

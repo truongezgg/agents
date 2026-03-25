@@ -1,0 +1,41 @@
+{
+  "skill_name": "mongodb-mcp-server",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use the MongoDB MCP server to confirm what database connection is active and list the available databases before doing anything else.",
+      "expected_output": "Confirms the active connection via harmless metadata calls, lists databases, and reports the connection/tool sequence clearly.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Inspect the `signal-trading` database and tell me what collections exist, then pick one collection and summarize its schema or explain clearly if the collection is empty.",
+      "expected_output": "Uses list-collections and schema-oriented tools, and handles empty collections without claiming the collection is missing.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Run an explain-style review for a simple query against a collection in `signal-trading` and tell me whether it is using an index or a collection scan.",
+      "expected_output": "Uses collection-indexes and/or explain, then interprets the winning plan in plain language.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Export a tiny sample result from a collection and tell me where the export can be accessed.",
+      "expected_output": "Uses export and reports the returned exported-data URI and/or local export path if available.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Please update a document in MongoDB and set its status to shipped. If you cannot do it from this MCP client, explain exactly why and what you can inspect first instead.",
+      "expected_output": "Does not pretend writes are available, explains the current client limitation, and offers an inspection-first alternative.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Search the MongoDB knowledge base for guidance on reading explain plans and summarize the key signals I should look at.",
+      "expected_output": "Uses MongoDB knowledge tools and summarizes explain-plan signals such as COLLSCAN, total keys examined, and total docs examined.",
+      "files": []
+    }
+  ]
+}
