@@ -1,0 +1,3 @@
+interface:
+  display_name: "Git Commit Writer"
+  short_description: "Generate concise conventional-style Git commit messages"
