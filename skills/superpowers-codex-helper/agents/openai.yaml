@@ -1,0 +1,4 @@
+interface:
+  display_name: "Superpowers Codex Helper"
+  short_description: "Translate Superpowers workflows for Codex App"
+  default_prompt: "Use $superpowers-codex-helper to translate a Superpowers or Claude Code workflow into Codex App actions."
