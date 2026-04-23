@@ -1,14 +1,13 @@
-# Superpowers to Codex App Translation
+# Superpowers to Codex App Tool Translation
 
-Use this table when a Superpowers skill or plan was written for Claude Code and needs adaptation for this Codex App harness.
+Use this table when a Superpowers skill or plan was written for Claude Code and needs only tool-name or platform-mechanics translation for this Codex App harness. Preserve the original workflow.
 
 ## Tool Mapping
 
 | Superpowers or Claude Code term | Codex App equivalent | Notes |
 | --- | --- | --- |
 | `TodoWrite` | `update_plan` | Keep one `in_progress` step at a time. |
-| `Task` | `spawn_agent` | Only when the user explicitly asks for subagents, delegation, or parallel agent work. |
-| `superpowers:dispatching-parallel-agents` | Multiple `spawn_agent` calls plus `wait_agent` and `close_agent` | Use one agent per independent domain, keep write scopes disjoint, and avoid `fork_context` by default. |
+| `Task` | `spawn_agent` | Use together with `wait_agent` and `close_agent` when delegation is allowed. If not, stop and ask before changing the step. |
 | Wait for task result | `wait_agent` | Upstream references sometimes say `wait`; use `wait_agent` here. |
 | Clean up finished task | `close_agent` | Close agents when no longer needed. |
 | `Skill` tool | Native skill triggering | Do not simulate a separate tool call. |
@@ -17,11 +16,10 @@ Use this table when a Superpowers skill or plan was written for Claude Code and 
 | `Bash` | `exec_command` | Use shell commands directly. |
 | `run_in_background: true` | `exec_command(...tty=true)` plus `write_stdin` | Prefer a persistent session to detached backgrounding. |
 | Parallel shell reads | `multi_tool_use.parallel` | Use only for independent developer-tool calls. |
-| `EnterPlanMode` / `ExitPlanMode` | No separate mode switch | Stay in the main session; use `update_plan` if helpful. |
-| `CLAUDE.md` | `AGENTS.md` or repo instruction files | Read the actual instruction files used by the repo. |
+| `EnterPlanMode` / `ExitPlanMode` | No separate mode switch | Keep the same step in the current session. |
 | Named agent such as `superpowers:code-reviewer` | `spawn_agent(agent_type=\"worker\", message=...)` | Read the referenced prompt file first and fill any placeholders. |
 
-## Workflow Translation
+## Examples
 
 ### `TodoWrite`
 
@@ -50,46 +48,9 @@ Codex App adaptation:
 
 1. Find the referenced prompt file such as `agents/code-reviewer.md`
 2. Fill placeholders like `{BASE_SHA}` or `{WHAT_WAS_IMPLEMENTED}`
-3. If the user explicitly requested delegation, call `spawn_agent`
-4. Otherwise perform the review locally
+3. If delegation is allowed by the current instructions, call `spawn_agent`
+4. Otherwise stop and ask before changing the step
 
-### `superpowers:dispatching-parallel-agents`
+## Rule
 
-Superpowers example:
-
-```text
-Dispatch one agent per independent failure domain and let them work concurrently.
-```
-
-Codex App adaptation:
-
-1. Confirm the user explicitly requested delegation, subagents, or parallel agent work
-2. Split the work into independent domains with disjoint file ownership where possible
-3. Call `spawn_agent` once per domain with focused instructions and isolated context
-4. Continue local coordination work instead of blocking immediately on all agents
-5. Use `wait_agent` only when blocked on a result, then review, integrate, and `close_agent`
-
-## Important Differences From Upstream Mapping
-
-- Use `wait_agent`, not `wait`
-- Use `apply_patch` for manual edits rather than a generic write tool
-- Do not spawn subagents unless the user explicitly asked for them
-- Prefer persistent PTY sessions instead of detached background processes
-- Translate `CLAUDE.md` references to the repo's real instruction files
-- Treat `EnterPlanMode` as descriptive, not as a required tool or mode switch
-- Treat repo instructions such as `AGENTS.md` as higher priority than Superpowers workflow rules
-
-## Git and Worktree Safety
-
-Some Superpowers skills include aggressive git instructions like automatic `.gitignore` edits, `git pull`, force branch deletion, or worktree cleanup.
-
-In Codex App:
-
-- Re-check the real git state before following branch or worktree instructions
-- Do not force-delete branches or remove worktrees without explicit user confirmation
-- Do not make extra repo changes, such as creating a `.gitignore` commit, unless the user actually wants that outcome
-- Prefer non-interactive commands and App-native git controls when available
-
-## Safety Rule
-
-This skill translates Superpowers terminology. It does not authorize automatic use of Superpowers when user or repo rules forbid it.
+This skill translates tool names and mechanics. It does not choose fallback workflows.
