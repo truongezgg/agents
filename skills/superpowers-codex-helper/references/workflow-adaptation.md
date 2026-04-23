@@ -67,6 +67,21 @@ Codex App adaptation:
 - Otherwise downgrade to `executing-plans` or direct local execution
 - When adaptation is needed, explain briefly that the plan was written for delegated execution but is being executed locally
 
+### `dispatching-parallel-agents`
+
+Interpretation:
+
+- Parallel delegation across multiple independent problem domains
+- Strong preference for isolated agent context and narrow scope
+
+Codex App adaptation:
+
+- Use only when the user explicitly requested delegation, subagents, or parallel agent work
+- Translate it into multiple `spawn_agent` calls, usually with the default isolated context rather than `fork_context=true`
+- Give each agent a focused goal and disjoint ownership when edits are involved
+- Keep orchestration, conflict checking, and integration in the main session
+- If the work is not truly independent, downgrade to `subagent-driven-development`, `executing-plans`, or direct local execution
+
 ### `requesting-code-review`
 
 Interpretation:

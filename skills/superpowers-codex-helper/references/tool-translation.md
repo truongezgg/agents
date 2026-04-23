@@ -8,6 +8,7 @@ Use this table when a Superpowers skill or plan was written for Claude Code and 
 | --- | --- | --- |
 | `TodoWrite` | `update_plan` | Keep one `in_progress` step at a time. |
 | `Task` | `spawn_agent` | Only when the user explicitly asks for subagents, delegation, or parallel agent work. |
+| `superpowers:dispatching-parallel-agents` | Multiple `spawn_agent` calls plus `wait_agent` and `close_agent` | Use one agent per independent domain, keep write scopes disjoint, and avoid `fork_context` by default. |
 | Wait for task result | `wait_agent` | Upstream references sometimes say `wait`; use `wait_agent` here. |
 | Clean up finished task | `close_agent` | Close agents when no longer needed. |
 | `Skill` tool | Native skill triggering | Do not simulate a separate tool call. |
@@ -51,6 +52,22 @@ Codex App adaptation:
 2. Fill placeholders like `{BASE_SHA}` or `{WHAT_WAS_IMPLEMENTED}`
 3. If the user explicitly requested delegation, call `spawn_agent`
 4. Otherwise perform the review locally
+
+### `superpowers:dispatching-parallel-agents`
+
+Superpowers example:
+
+```text
+Dispatch one agent per independent failure domain and let them work concurrently.
+```
+
+Codex App adaptation:
+
+1. Confirm the user explicitly requested delegation, subagents, or parallel agent work
+2. Split the work into independent domains with disjoint file ownership where possible
+3. Call `spawn_agent` once per domain with focused instructions and isolated context
+4. Continue local coordination work instead of blocking immediately on all agents
+5. Use `wait_agent` only when blocked on a result, then review, integrate, and `close_agent`
 
 ## Important Differences From Upstream Mapping
 

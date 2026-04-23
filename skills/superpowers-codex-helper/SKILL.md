@@ -23,7 +23,7 @@ Translate Superpowers language into Codex App actions. Treat this skill as an ad
 ## Translation Workflow
 
 1. Identify the Superpowers reference:
-   - Workflow skill such as `brainstorming`, `writing-plans`, or `subagent-driven-development`
+   - Workflow skill such as `brainstorming`, `writing-plans`, `dispatching-parallel-agents`, or `subagent-driven-development`
    - Claude Code tool name such as `TodoWrite`, `Task`, `Skill`, `Read`, `Write`, `Edit`, or `Bash`
    - Named agent reference such as `superpowers:code-reviewer`
 2. Decide whether the reference is:
@@ -37,6 +37,7 @@ Translate Superpowers language into Codex App actions. Treat this skill as an ad
 
 - `TodoWrite` -> `update_plan`
 - `Task` -> `spawn_agent`, `wait_agent`, `close_agent`, but only if the user explicitly asked for delegation
+- `superpowers:dispatching-parallel-agents` -> multiple focused `spawn_agent` calls plus `wait_agent` and `close_agent`; keep scopes independent and avoid `fork_context` unless the shared history is truly required
 - `Skill` -> rely on Codex skill triggering or read the relevant local skill file if needed; do not pretend there is a separate Skill tool
 - `Read` -> inspect files with native shell and file tools
 - `Write` and `Edit` -> use `apply_patch` for manual edits
@@ -57,6 +58,17 @@ When a Superpowers skill says "create TodoWrite items" or "mark task complete in
 ### Named reviewer or implementer agents
 
 Superpowers often assumes plugin-registered agent types. Codex App does not expose those directly here. If delegation is allowed, read the prompt file from the plugin or skill folder and send it as the worker message. If delegation is not allowed, perform the work locally instead of stalling.
+
+### Parallel agent dispatch
+
+If a Superpowers skill says to dispatch parallel agents, translate that into Codex's delegation tools only when the user explicitly asked for delegation, subagents, or parallel agent work.
+
+- Spawn one agent per independent problem domain
+- Give each agent a tight scope and a disjoint write surface when code changes are involved
+- Prefer the default isolated context; do not set `fork_context=true` unless the agent truly needs the full thread history
+- Keep coordination and integration in the main session
+- Use `wait_agent` only when the next critical-path step is blocked on an agent result
+- Close agents after review and integration
 
 ### Mandatory skill invocation language
 
